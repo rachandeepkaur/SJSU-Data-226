@@ -1,0 +1,39 @@
+-- 02_merge_union_final.sql
+-- SQL script for merge and union operations
+
+-- ============================================================
+-- Rebuild WEATHER_FINAL_DAILY from RAW + FORECAST
+-- ============================================================
+
+BEGIN;
+
+TRUNCATE TABLE WEATHER_FINAL_DAILY;
+
+INSERT INTO WEATHER_FINAL_DAILY
+  (LOCATION_NAME, DATE, TEMP_MAX, TEMP_MIN, TEMP_MEAN, IS_FORECAST, MODEL_NAME)
+
+-- Actual data from ETL
+SELECT
+  LOCATION_NAME,
+  DATE,
+  TEMP_MAX,
+  TEMP_MIN,
+  TEMP_MEAN,
+  FALSE AS IS_FORECAST,
+  NULL AS MODEL_NAME
+FROM WEATHER_RAW_DAILY
+
+UNION ALL
+
+-- Forecast data from ML
+SELECT
+  LOCATION_NAME,
+  FORECAST_DATE AS DATE,
+  PREDICTED_TEMP_MAX AS TEMP_MAX,
+  NULL AS TEMP_MIN,
+  NULL AS TEMP_MEAN,
+  TRUE AS IS_FORECAST,
+  MODEL_NAME
+FROM WEATHER_FORECAST_DAILY;
+
+COMMIT;

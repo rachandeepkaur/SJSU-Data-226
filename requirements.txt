@@ -1,0 +1,14 @@
+# Core Airflow (pinned to a stable version for Python 3.x)
+apache-airflow==2.9.3
+
+# Airflow Snowflake provider (for SnowflakeHook)
+apache-airflow-providers-snowflake==5.3.1
+
+# Snowflake connector
+snowflake-connector-python==3.9.0
+
+# Data & ML
+pandas
+numpy
+scikit-learn
+requests
